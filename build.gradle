@@ -54,6 +54,7 @@ dependencies {
     implementation 'org.json:json:20200518'
     implementation 'org.apache.commons:commons-lang3'
     implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'commons-io:commons-io:2.8.0'
     jaxb("org.glassfish.jaxb:jaxb-xjc")
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
