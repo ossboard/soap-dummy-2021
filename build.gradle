@@ -7,7 +7,8 @@ plugins {
 
 group = 'com.github'
 version = '2021.1'
-sourceCompatibility = '1.8'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
@@ -75,4 +76,3 @@ bootWar {
     }
 }
 bootWar.manifest.writeTo("src/main/resources/MANIFEST-INFO.MF")
-// end::jaxb[]
