@@ -1,0 +1,78 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+    id 'war'
+}
+
+group = 'com.github'
+version = '2021.1'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir 'build/generated-sources/jaxb'
+        }
+    }
+}
+
+task genJaxb {
+    ext.sourcesDir = "${buildDir}/generated-sources/jaxb"
+    ext.schema = "src/main/resources/cams.xsd"
+    outputs.dir sourcesDir
+    doLast() {
+        project.ant {
+            taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask",
+                    classpath: configurations.jaxb.asPath
+            mkdir(dir: sourcesDir)
+            xjc(destdir: sourcesDir, schema: schema) {
+                arg(value: "-wsdl")
+                produces(dir: sourcesDir, includes: "**/*.java")
+            }
+        }
+    }
+}
+
+compileJava.dependsOn genJaxb
+
+configurations {
+    jaxb
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web-services'
+
+    implementation 'wsdl4j:wsdl4j'
+    implementation 'org.json:json:20200518'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    jaxb("org.glassfish.jaxb:jaxb-xjc")
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+bootWar {
+    enabled = true
+    manifest {
+        attributes("Main-Class": "org.springframework.boot.loader.WarLauncher")
+        attributes("Built-By": System.getProperty("user.name"))
+        attributes([
+                "Specification-Title" : project.name,
+                "Specification-Version" : version,
+                "Build-Time" : new Date().format("yyyy-MM-dd HH:mm:ss")
+        ], "common")
+    }
+}
+bootWar.manifest.writeTo("src/main/resources/MANIFEST-INFO.MF")
+// end::jaxb[]

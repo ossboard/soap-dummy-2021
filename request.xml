@@ -1,0 +1,16 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cmd="http://cmd.soap.cams">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cmd:CamsExCallRequest>
+         <cmd:sessionid>123</cmd:sessionid>
+         <cmd:trname>tname</cmd:trname>
+         <cmd:requestxml><![CDATA[<mamex_request>
+  <cams_ex_create_recordfile_from_cms>
+    <bsid>201500000001</bsid>
+    <assetid>106088</assetid>
+    <assettype>video</assettype>
+  </cams_ex_create_recordfile_from_cms>
+</mamex_request>]]></cmd:requestxml>
+      </cmd:CamsExCallRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

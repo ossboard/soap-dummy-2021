@@ -1,0 +1,28 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://cmd.soap.cams"
+           targetNamespace="http://cmd.soap.cams" elementFormDefault="qualified">
+
+    <xs:element name="CamsExCallRequest" >
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sessionid" type="xs:string"/>
+                <xs:element name="trname" type="xs:string"/>
+                <xs:element name="requestxml" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CamsExCallResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="camex_reponse" type="tns:camex_reponse"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="camex_reponse">
+        <xs:sequence>
+            <xs:element name="metaset" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

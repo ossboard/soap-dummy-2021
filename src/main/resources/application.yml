@@ -1,0 +1,11 @@
+server:
+  title: 'cams demo'
+  port: 8080
+  servlet:
+    application-display-name: cams
+    session:
+      timeout: 30m
+    context-path: /
+  error:
+    whitelabel:
+      enabled: true
