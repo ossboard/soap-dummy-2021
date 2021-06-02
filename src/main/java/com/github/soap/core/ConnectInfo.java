@@ -21,12 +21,14 @@ public class ConnectInfo {
     public void init() {
 
         String port = (serverPort == 80) ? "" : ":" + serverPort;
-        String path = "http://127.0.0.1" + port + serverContextPath + "/ws/cams.wsdl";
+        String path1 = "http://127.0.0.1" + port + serverContextPath + "/wss/cams.wsdl";
+        String path2 = "http://127.0.0.1" + port + serverContextPath + "/ws";
         StringBuffer sb = new StringBuffer();
         sb.append("--------------------------------------------").append("\n");
         sb.append(title).append("\n");
         sb.append("--------------------------------------------").append("\n");
-        sb.append("Available on: ").append(path).append("\n");
+        sb.append("Available on: ").append(path1).append("\n");
+        sb.append("CUSTOM TEST: ").append(path2).append("\n");
         sb.append("Hit CTRL-C to stop the server").append("\n");
         sb.append("--------------------------------------------").append("\n");
         System.out.println(sb.toString());

@@ -12,6 +12,8 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
+import static com.github.soap.CamsEndpoint.NAMESPACE_URI;
+
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
@@ -20,21 +22,21 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
 		servlet.setApplicationContext(applicationContext);
 		servlet.setTransformWsdlLocations(true);
-		return new ServletRegistrationBean<>(servlet, "/ws/*");
+		return new ServletRegistrationBean<>(servlet, "/wss/*");
 	}
 
 	@Bean(name = "cams")
-	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
+	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema xsdSchema) {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-		wsdl11Definition.setPortTypeName("CamsExCall");
-		wsdl11Definition.setLocationUri("/ws");
-		wsdl11Definition.setTargetNamespace("http://cmd.soap.cams");
-		wsdl11Definition.setSchema(countriesSchema);
+		wsdl11Definition.setPortTypeName("CountriesPort");
+		wsdl11Definition.setLocationUri("/wss");
+		wsdl11Definition.setTargetNamespace(NAMESPACE_URI);
+		wsdl11Definition.setSchema(xsdSchema);
 		return wsdl11Definition;
 	}
 
 	@Bean
-	public XsdSchema countriesSchema() {
+	public XsdSchema xsdSchema() {
 		return new SimpleXsdSchema(new ClassPathResource("cams.xsd"));
 	}
 }

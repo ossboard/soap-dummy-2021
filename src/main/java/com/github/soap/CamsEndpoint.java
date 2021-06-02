@@ -1,6 +1,5 @@
 package com.github.soap;
 
-import cams.soap.cmd.CamexReponse;
 import cams.soap.cmd.CamsExCallRequest;
 import cams.soap.cmd.CamsExCallResponse;
 import com.github.soap.utils.DarcXmlUtil;
@@ -15,7 +14,7 @@ import java.util.Map;
 
 @Endpoint
 public class CamsEndpoint {
-	private static final String NAMESPACE_URI = "http://cmd.soap.cams";
+	public static final String NAMESPACE_URI = "http://cmd.soap.cams";
 
 
 	@Autowired
@@ -30,15 +29,17 @@ public class CamsEndpoint {
 	public CamsExCallResponse camsExCall(@RequestPayload CamsExCallRequest request) throws Exception {
 
 		String xml = request.getRequestxml();
-		Map<String, Object> map1 = DarcXmlUtil.xml2Map(xml);
-		Map<String, Object> map2 = (Map<String, Object>) MapUtils.getMap(map1, "mamex_request");
-		Map<String, Object> map3 = (Map<String, Object>) MapUtils.getMap(map2, "cams_ex_create_recordfile_from_cms");
-		String bsid = MapUtils.getString(map3, "bsid");
-		String assetid = MapUtils.getString(map3, "assetid");
-		String assettype = MapUtils.getString(map3, "assettype");
+		try {
+			Map<String, Object> map1 = DarcXmlUtil.xml2Map(xml);
+			Map<String, Object> map2 = (Map<String, Object>) MapUtils.getMap(map1, "mamex_request");
+			Map<String, Object> map3 = (Map<String, Object>) MapUtils.getMap(map2, "cams_ex_create_recordfile_from_cms");
+			String bsid = MapUtils.getString(map3, "bsid");
+			String assetid = MapUtils.getString(map3, "assetid");
+			String assettype = MapUtils.getString(map3, "assettype");
+		} catch (Exception ignore) {}
+
 		String dsid = "00000001";
 		CamsExCallResponse response = new CamsExCallResponse();
-		CamexReponse reponse = new CamexReponse();
 		String metaset = "<mamex_response>\n" +
 				"  <metaset>\n" +
 				"    <DSID>" + dsid + "</DSID>\n" +
@@ -46,8 +47,8 @@ public class CamsEndpoint {
 				"    <error_msg></error_msg>\n" +
 				"  </metaset>\n" +
 				"</mamex_response>";
-		reponse.setMetaset(metaset);
-		response.setCamexReponse(reponse);
+
+		response.setReturn(metaset);
 		return response;
 	}
 }
